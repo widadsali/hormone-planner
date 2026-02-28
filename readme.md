@@ -64,33 +64,6 @@ node server.js
 
 
 
-![Screenshot1](<img src="./img1.png" width="100%">)
-*dashboard*
-
-![Screenshot2](<img src="./img2.png" width="100%">)
-*Current Phase*
-
-![Screenshot3](<img src="./img3.png" width="100%">)
-*Health Status*
-
-#### Diagrams
-
-**System Architecture:**
-
-![Architecture Diagram]
-*The application follows a Client-Server architecture. The Vanilla JS frontend communicates with a Node.js/Express backend hosted on Render, which manages a MongoDB Atlas database and integrates the Google Gemini AI Pro Vision model*
-
-**Application Workflow:**
-
-![Workflow]
-*User Logs In -> Input Cycle Data -> App Calculates Phase -> Planner Adjusts Recommendations -> User Logs Meal -> Gemini AI Processes Photo -> Dashboard Updates.*
-
----
-
-
-
-
-
 
 
 **Base URL:** `https://hormone-planner.onrender.com/api`
@@ -127,7 +100,34 @@ node server.js
   "message": "Operation completed"
 }
 ```
+<p align="center">
+  <img src="./img1.png" alt="Project Banner" width="100%">
+</p>
+*dashboard*
 
+<p align="center">
+  <img src="./img2.png" alt="Project Banner" width="100%">
+</p>
+*Current Phase*
+
+<p align="center">
+  <img src="./img3.png" alt="Project Banner" width="100%">
+</p>
+*Health Status*
+
+#### Diagrams
+
+**System Architecture:**
+
+![Architecture Diagram]
+*The application follows a Client-Server architecture. The Vanilla JS frontend communicates with a Node.js/Express backend hosted on Render, which manages a MongoDB Atlas database and integrates the Google Gemini AI Pro Vision model*
+
+**Application Workflow:**
+
+![Workflow]
+*User Logs In -> Input Cycle Data -> App Calculates Phase -> Planner Adjusts Recommendations -> User Logs Meal -> Gemini AI Processes Photo -> Dashboard Updates.*
+
+---
 
 
 ## Project Demo
