@@ -1,6 +1,6 @@
 # CycleSync: Hormone-Aware Wellness & Performance 
 
-**CycleSync** is a professional wellness and performance optimizer designed to align a user's workflow, nutrition, and health tracking with their unique hormonal rhythms. Built for the **Tink-Her-Hack hackathon**, it transforms biological data into a competitive performance advantage.
+**CycleSync** is a wellness and performance optimizer designed to align a user's workflow, nutrition, and health tracking with their unique hormonal rhythms. Built for the **Tink-Her-Hack hackathon**, it transforms biological data into a competitive performance advantage.
 
 ##  Live Links
 * **Frontend:** [https://thriving-elf-52618d.netlify.app/](https://thriving-elf-52618d.netlify.app/)
