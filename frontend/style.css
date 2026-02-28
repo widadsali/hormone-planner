@@ -1,0 +1,96 @@
+:root {
+    --primary: #9bbfa8; /* Soft sage green */
+    --secondary: #dcd6f7; /* Gentle lavender */
+    --bg-color: #f4f7f6;
+    --text-dark: #333;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Typography & Inputs */
+h2, h3 { margin-top: 0; }
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover { background-color: #88ab95; }
+
+.outline-btn {
+    background-color: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    width: auto;
+    padding: 8px 16px;
+}
+
+/* Dashboard Grid Layout */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    padding: 24px;
+    border-radius: 12px;
+    background-color: #fafafa;
+    border-left: 6px solid var(--primary);
+}
+
+.cycle-card { border-color: var(--secondary); }
+.pcos-card { border-color: #fbd6d2; } /* Soft pink for health */
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+ul li { margin-bottom: 10px; }

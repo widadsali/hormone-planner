@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CycleSync - Hormone-Aware Wellness</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'DM Sans', sans-serif; }
+    .font-display { font-family: 'Fraunces', serif; }
+   
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+   
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      50% { transform: scale(1.05); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.7; }
+    }
+   
+    .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+    .animate-fade-in-delay-1 { animation: fadeIn 0.6s ease-out 0.1s forwards; opacity: 0; }
+    .animate-fade-in-delay-2 { animation: fadeIn 0.6s ease-out 0.2s forwards; opacity: 0; }
+    .animate-fade-in-delay-3 { animation: fadeIn 0.6s ease-out 0.3s forwards; opacity: 0; }
+    .animate-pulse-ring { animation: pulse-ring 3s ease-in-out infinite; }
+   
+    .cycle-ring {
+      background: conic-gradient(
+        from 0deg, #A7C4A0 0deg 90deg, #E8D5B7 90deg 180deg, #C9B8D4 180deg 270deg, #F5E6E0 270deg 360deg
+      );
+      transition: background 0.5s ease;
+    }
+   
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    body { box-sizing: border-box; }
+  </style>
+ </head>
+ <body class="h-full bg-gradient-to-br from-stone-50 via-green-50/30 to-purple-50/20">
+  <div id="app" class="h-full w-full overflow-auto">
+      
+   <div id="landing-page" class="min-h-full w-full">
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
+     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+       <div class="w-8 h-8 rounded-full cycle-ring"></div><span class="font-display font-semibold text-xl text-stone-800">CycleSync</span>
+      </div>
+      <div class="flex items-center gap-3">
+          <button onclick="showAuth('login')" class="px-4 py-2 text-stone-600 hover:text-stone-800 font-medium transition-colors">Log In</button> 
+          <button onclick="showAuth('signup')" class="px-5 py-2.5 bg-green-700 hover:bg-green-800 text-white rounded-full font-medium transition-all hover:shadow-lg">Get Started</button>
+      </div>
+     </div>
+    </nav>
+    <section class="pt-32 pb-20 px-6">
+     <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+       <div class="animate-fade-in">
+        <h1 class="font-display text-5xl lg:text-6xl font-bold text-stone-800 leading-tight mb-6">Your Biology is a <span class="text-green-600">Competitive Advantage.</span></h1>
+        <p class="text-xl text-stone-600 mb-8 leading-relaxed">Stop fighting your cycle and start syncing your workflow. CycleSync is the first professional performance optimizer that tells you exactly when to pitch, when to do deep work, and when to rest, based on your hormones.</p>        <div class="flex flex-wrap gap-4">
+            <button onclick="showAuth('signup')" class="px-8 py-4 bg-green-700 hover:bg-green-800 text-white rounded-full font-semibold text-lg transition-all hover:shadow-xl hover:-translate-y-0.5">Start Free Today</button> 
+            <button onclick="showAuth('login')" class="px-8 py-4 border-2 border-stone-300 hover:border-stone-400 text-stone-700 rounded-full font-semibold text-lg transition-all hover:bg-white">Log In</button>
+        </div>
+       </div>
+       <div class="relative animate-fade-in-delay-1">
+        <div class="absolute inset-0 bg-gradient-to-br from-green-200/50 to-purple-200/50 rounded-3xl blur-3xl"></div>
+        <div class="relative glass-card rounded-3xl p-8 shadow-xl">
+         <div class="flex items-center justify-center mb-6">
+          <div class="relative w-48 h-48">
+           <div class="absolute inset-0 cycle-ring rounded-full animate-pulse-ring"></div>
+           <div class="absolute inset-3 bg-white rounded-full flex items-center justify-center shadow-inner">
+            <div class="text-center">
+             <div class="text-3xl mb-1" id="ui-phase-icon-1">🌸</div>
+             <div class="font-semibold text-stone-800" id="ui-phase-name-1">Follicular</div>
+             <div class="text-sm text-stone-500" id="ui-phase-day-1">Day 8</div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="grid grid-cols-4 gap-2 text-center text-xs">
+          <div class="p-2 bg-green-100 rounded-lg"><div class="text-lg mb-1">🌱</div><div class="text-stone-600">Menstrual</div></div>
+          <div class="p-2 bg-yellow-100 rounded-lg ring-2 ring-green-400"><div class="text-lg mb-1">🌸</div><div class="text-stone-600">Follicular</div></div>
+          <div class="p-2 bg-purple-100 rounded-lg"><div class="text-lg mb-1">✨</div><div class="text-stone-600">Ovulatory</div></div>
+          <div class="p-2 bg-pink-100 rounded-lg"><div class="text-lg mb-1">🍂</div><div class="text-stone-600">Luteal</div></div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+      
+    <section class="py-20 px-6 bg-white/50">
+     <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 animate-fade-in-delay-2">
+       <h2 class="font-display text-3xl lg:text-4xl font-bold text-stone-800 mb-4">Everything You Need to Thrive</h2>
+       <p class="text-lg text-stone-600 max-w-2xl mx-auto">Personalized tools that adapt to your unique hormonal rhythms</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8 animate-fade-in-delay-3">
+       <div class="glass-card rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group">
+        <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+         <svg class="w-8 h-8 text-green-700" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+         </svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-stone-800 mb-3">Hormone-Aware Planner</h3>
+        <p class="text-stone-600 leading-relaxed">Dynamic to-do lists that automatically categorize tasks based on your current energy levels and cycle phase.</p>
+       </div>
+       <div class="glass-card rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group">
+        <div class="w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+         <svg class="w-8 h-8 text-amber-700" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+         </svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-stone-800 mb-3">AI Diet &amp; Calorie Tracker</h3>
+        <p class="text-stone-600 leading-relaxed">Log meals with photos and get instant macro breakdowns. Track your nutrition goals effortlessly.</p>
+       </div>
+       <div class="glass-card rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group">
+        <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+         <svg class="w-8 h-8 text-purple-700" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+         </svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-stone-800 mb-3">PCOS &amp; Wellness Insights</h3>
+        <p class="text-stone-600 leading-relaxed">Track symptoms, identify patterns, and receive personalized insights for managing PCOS and hormonal health.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <footer class="py-12 px-6 bg-stone-800 text-stone-300">
+     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+       <div class="w-6 h-6 rounded-full cycle-ring"></div><span class="font-display font-semibold text-white">CycleSync</span>
+      </div>
+      <p class="text-sm">© 2026 CycleSync. Designed for women, by women.</p>
+     </div>
+    </footer>
+   </div>
+   
+   <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm">
+    <div class="glass-card rounded-3xl p-8 w-full max-w-md shadow-2xl animate-fade-in"><button onclick="hideAuth()" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-600 transition-colors">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+     <div class="text-center mb-8">
+      <div class="w-12 h-12 rounded-full cycle-ring mx-auto mb-4"></div>
+      <h2 id="auth-title" class="font-display text-2xl font-bold text-stone-800">Welcome Back</h2>
+      <p id="auth-subtitle" class="text-stone-500 mt-2">Log in to your account</p>
+     </div>
+     <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+      <div><label class="block text-sm font-medium text-stone-700 mb-1">Email</label> <input type="email" id="auth-email" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none"></div>
+      <div><label class="block text-sm font-medium text-stone-700 mb-1">Password</label> <input type="password" id="auth-password" required minlength="6" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none"></div>
+      <div id="auth-name-field" class="hidden"><label class="block text-sm font-medium text-stone-700 mb-1">Your Name</label> <input type="text" id="auth-name" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none"></div>
+      <button type="submit" id="auth-submit" class="w-full py-3 bg-green-700 hover:bg-green-800 text-white rounded-xl font-semibold transition-all shadow-lg">Log In</button>
+     </form>
+     <p class="text-center mt-6 text-stone-500"><span id="auth-toggle-text">Don't have an account?</span> <button onclick="toggleAuthMode()" class="text-green-700 font-medium hover:underline ml-1" id="auth-toggle-btn">Sign up</button></p>
+    </div>
+   </div>
+
+   <div id="dashboard" class="hidden h-full w-full">
+    <div class="flex h-full">
+     <aside class="w-64 bg-white border-r border-stone-200 flex flex-col">
+      <div class="p-6 border-b border-stone-100">
+       <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full cycle-ring"></div><span class="font-display font-semibold text-lg text-stone-800">CycleSync</span>
+       </div>
+      </div>
+      <nav class="flex-1 p-4 space-y-1"><button onclick="showView('dashboard')" data-nav="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all bg-green-50 text-green-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+        </svg>Dashboard</button> <button onclick="showView('cycle')" data-nav="cycle" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all text-stone-600 hover:bg-stone-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>My Cycle</button> <button onclick="showView('planner')" data-nav="planner" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all text-stone-600 hover:bg-stone-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+        </svg>Smart Planner</button> <button onclick="showView('nutrition')" data-nav="nutrition" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all text-stone-600 hover:bg-stone-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>Diet &amp; Nutrition</button> <button onclick="showView('pcos')" data-nav="pcos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all text-stone-600 hover:bg-stone-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>Wellness &amp; Health</button> <button onclick="showView('settings')" data-nav="settings" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium transition-all text-stone-600 hover:bg-stone-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>Settings</button>
+      </nav>
+      <div class="p-4 border-t border-stone-100"><button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-medium text-stone-500 hover:bg-red-50 hover:text-red-600 transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>Log Out</button>
+      </div>
+     </aside>
+     <main class="flex-1 flex flex-col overflow-hidden">
+      <header class="bg-white border-b border-stone-200 px-8 py-6">
+       <div class="flex items-center justify-between">
+        <div>
+         <h1 class="text-3xl font-display font-bold text-stone-800 mb-1">Hii , <span id="user-name">Sarah</span> !!</h1>
+         <p class="text-stone-500 text-sm" id="current-date"></p>
+        </div>
+        <div class="flex items-center gap-4"><button onclick="showMealModal()" class="flex items-center gap-2 px-5 py-2.5 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full font-semibold transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>Add Meal</button>
+         <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg"><span id="user-avatar">S</span>
+         </div>
+        </div>
+       </div>
+      </header>
+      <div class="flex-1 overflow-auto p-8 bg-stone-50/50">
+       <div class="max-w-5xl mx-auto">
+       
+        <div id="period-reminder-alert" class="hidden mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🩸</span>
+            <div><h4 class="text-red-800 font-bold text-sm">Update Your Cycle</h4><p class="text-red-600 text-xs">It's been 28 days since your last cycle started. Update settings!</p></div>
+          </div>
+          <button onclick="showView('settings')" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200">Update</button>
+        </div>
+
+        <div id="view-dashboard" class="space-y-6">
+         <div class="grid md:grid-cols-2 gap-6">
+            <button onclick="showView('cycle')" class="glass-card rounded-2xl p-6 hover:shadow-lg transition-all text-left group border-l-4 border-green-500"> 
+                <h3 class="font-display text-xl font-semibold text-stone-800 mb-3 flex items-center gap-2 group-hover:text-green-600 transition-colors"><span class="text-2xl">🌸</span>Your Cycle</h3>
+                <p id="dash-cycle-info" class="text-stone-600 text-sm">Loading...</p>
+                <p class="text-xs text-stone-400 mt-2">Click to view cycle details →</p>
+            </button> 
+            <button onclick="showView('planner')" class="glass-card rounded-2xl p-6 hover:shadow-lg transition-all text-left group border-l-4 border-green-400"> 
+                <h3 class="font-display text-xl font-semibold text-stone-800 mb-3 flex items-center gap-2 group-hover:text-green-600 transition-colors"><span class="text-2xl">✨</span>Today's Tasks</h3>
+                <p id="task-preview" class="text-stone-600 text-sm">0 tasks completed</p>
+                <p class="text-xs text-stone-400 mt-2">Click to manage tasks →</p>
+            </button> 
+            <button onclick="showView('nutrition')" class="glass-card rounded-2xl p-6 hover:shadow-lg transition-all text-left group border-l-4 border-amber-500"> 
+                <h3 class="font-display text-xl font-semibold text-stone-800 mb-3 flex items-center gap-2 group-hover:text-amber-600 transition-colors"><span class="text-2xl">🥗</span>Nutrition</h3>
+                <p id="nutrition-preview" class="text-stone-600 text-sm">0 cal • 0g protein</p>
+                <p class="text-xs text-stone-400 mt-2">Click to log meals →</p>
+            </button> 
+            <button onclick="showView('pcos')" class="glass-card rounded-2xl p-6 hover:shadow-lg transition-all text-left group border-l-4 border-purple-500"> 
+                <h3 class="font-display text-xl font-semibold text-stone-800 mb-3 flex items-center gap-2 group-hover:text-purple-600 transition-colors"><span class="text-2xl">💜</span>Wellness &amp; Health</h3>
+                <p class="text-stone-600 text-sm">Track symptoms &amp; health conditions</p>
+                <p class="text-xs text-stone-400 mt-2">Click to log wellness →</p>
+            </button>
+         </div>
+         <div class="glass-card rounded-2xl p-8 border-t-4 border-stone-800 shadow-sm animate-fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display text-2xl font-bold text-stone-800 flex items-center gap-2">
+                    <span class="text-2xl">📊</span> Bio-Performance Analytics
+                </h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-4 rounded-xl border border-stone-100 shadow-sm">
+                    <h4 class="text-xs font-bold text-stone-400 uppercase mb-4">Productivity Heatmap (Phase vs Tasks)</h4>
+                    <canvas id="productivityChart" height="200"></canvas>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-stone-100 shadow-sm">
+                    <h4 class="text-xs font-bold text-stone-400 uppercase mb-4">7-Day Readiness Trend</h4>
+                    <canvas id="trendChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-stone-50 p-5 rounded-xl border border-stone-100">
+                <h4 class="text-stone-800 font-bold text-sm mb-2 flex items-center gap-2">🤖 AI Intelligence Summary</h4>
+                <p id="dash-ai-insight" class="text-sm text-stone-600 leading-relaxed">
+                    Your data shows a 30% productivity surge during your Follicular phase.
+                </p>
+            </div>
+         </div>
+        </div>
+       
+        <div id="view-cycle" class="hidden space-y-6">
+         <div class="glass-card rounded-2xl p-8">
+          <h2 class="font-display text-3xl font-bold text-stone-800 mb-8">Your Menstrual Cycle</h2>
+          <div class="flex items-start gap-8 mb-8">
+           <div class="relative w-40 h-40 flex-shrink-0">
+            <div class="absolute inset-0 cycle-ring rounded-full animate-pulse-ring"></div>
+            <div class="absolute inset-3 bg-white rounded-full flex items-center justify-center shadow-inner">
+             <div class="text-center">
+              <div id="cycle-ring-emoji" class="text-4xl mb-2">🌸</div>
+              <div id="cycle-ring-phase" class="font-semibold text-stone-800 text-lg">Follicular</div>
+              <div id="cycle-ring-day" class="text-sm text-stone-500">Day 8</div>
+             </div>
+            </div>
+           </div>
+           <div class="flex-1">
+            <div class="mb-6">
+             <h3 class="font-semibold text-stone-800 mb-3 text-lg">Energy Level</h3>
+             <div class="flex items-center justify-between text-sm mb-2"><span class="text-stone-600">Current</span> <span id="cycle-energy-level" class="font-semibold text-green-600 text-base">High ⚡</span></div>
+             <div class="h-3 bg-stone-200 rounded-full overflow-hidden">
+              <div class="h-full w-4/5 bg-gradient-to-r from-green-400 to-green-500 rounded-full"></div>
+             </div>
+            </div>
+            <p id="cycle-phase-desc" class="text-stone-700 leading-relaxed"><strong>🌱 Follicular Phase:</strong> Rising estrogen boosts your energy, creativity, and social mood. Perfect for challenging projects, workouts, and collaboration! This is your power phase.</p>
+           </div>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-3">
+           <div class="p-4 bg-green-100 rounded-xl text-center">
+            <div class="text-3xl mb-2">🌱</div>
+            <div class="text-sm font-semibold text-stone-800">Menstrual</div>
+           </div>
+           <div class="p-4 bg-yellow-100 rounded-xl text-center ring-2 ring-green-400">
+            <div class="text-3xl mb-2">🌸</div>
+            <div class="text-sm font-semibold text-stone-800">Follicular</div>
+           </div>
+           <div class="p-4 bg-purple-100 rounded-xl text-center">
+            <div class="text-3xl mb-2">✨</div>
+            <div class="text-sm font-semibold text-stone-800">Ovulatory</div>
+           </div>
+           <div class="p-4 bg-pink-100 rounded-xl text-center">
+            <div class="text-3xl mb-2">🍂</div>
+            <div class="text-sm font-semibold text-stone-800">Luteal</div>
+           </div>
+          </div>
+          
+         </div>
+        </div>
+       
+        <div id="view-planner" class="hidden space-y-6">
+         <div class="glass-card rounded-2xl p-8">
+          <h2 class="font-display text-3xl font-bold text-stone-800 mb-2">Hormone-Synced Planner</h2>
+          <p class="text-stone-500 mb-8">Add pending activities to your backlog. We'll recommend when to do them based on your cycle phase.</p>
+         
+          <div id="planner-recommendation" class="p-4 mb-8 rounded-xl bg-blue-50 text-blue-800 text-sm font-medium hidden"></div>
+         
+          <form onsubmit="addPendingTask(event)" class="flex flex-col md:flex-row gap-3 mb-10 bg-white p-3 rounded-xl border border-stone-200 shadow-sm items-center">
+            <input type="text" placeholder="Add a new pending activity..." class="flex-1 px-4 py-2 outline-none text-stone-700 w-full" id="new-pending-task" required>
+            
+            <input type="date" id="new-task-deadline" class="px-4 py-2 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-700 outline-none font-medium w-full md:w-auto" title="Optional Deadline">
+            
+            <select id="new-task-type" class="px-4 py-2 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-700 outline-none font-medium w-full md:w-auto">
+              <option value="high">⚡ High Energy / Focus</option>
+              <option value="restful">🧘 Restful / Low Effort</option>
+            </select>
+            
+            <button type="submit" class="px-8 py-2 bg-stone-800 hover:bg-black text-white rounded-lg font-semibold transition-all w-full md:w-auto">Add</button>
+          </form>
+
+          <div class="space-y-10">
+           <div>
+            <h3 class="flex items-center gap-2 font-semibold text-stone-800 mb-4 text-xl">🎯 Recommended for Today</h3>
+            <p class="text-xs text-stone-500 mb-4">Activities from your backlog that match your current hormonal energy.</p>
+            <div id="recommended-tasks" class="space-y-3">
+             <p class="text-stone-400 text-sm italic">Loading...</p>
+            </div>
+           </div>
+           
+           <div class="border-t border-stone-200 pt-8">
+            <h3 class="flex items-center gap-2 font-semibold text-stone-800 mb-4 text-xl">⏳ Other Pending Activities</h3>
+            <p class="text-xs text-stone-500 mb-4">Activities waiting for the right cycle phase.</p>
+            <div id="pending-tasks" class="space-y-3">
+             <p class="text-stone-400 text-sm italic">Loading...</p>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       
+        <div id="view-nutrition" class="hidden space-y-6">
+         <div class="glass-card rounded-2xl p-8">
+          <h2 class="font-display text-3xl font-bold text-stone-800 mb-8">Daily Nutrition Tracker</h2>
+          <div class="flex items-center gap-8 mb-8">
+           <div class="relative w-40 h-40 flex-shrink-0">
+            <svg class="w-40 h-40 transform -rotate-90"><circle cx="80" cy="80" r="70" stroke="#E5E7EB" stroke-width="8" fill="none" /> <circle id="calorie-ring" cx="80" cy="80" r="70" stroke="#A7C4A0" stroke-width="8" fill="none" stroke-dasharray="439.8" stroke-dashoffset="219.9" stroke-linecap="round" /></svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+             <div class="text-center">
+              <div id="calories-consumed" class="text-2xl font-bold text-stone-800">0</div>
+              <div class="text-xs text-stone-500">/ <span id="calorie-goal-display">2000</span> cal</div>
+             </div>
+            </div>
+           </div>
+           <div class="grid grid-cols-3 gap-4 flex-1">
+            <div class="text-center p-4 bg-red-50 rounded-xl"><div class="text-xs text-stone-500 font-semibold mb-2">Protein</div><div id="protein-total" class="text-3xl font-bold text-red-600">0g</div></div>
+            <div class="text-center p-4 bg-amber-50 rounded-xl"><div class="text-xs text-stone-500 font-semibold mb-2">Carbs</div><div id="carbs-total" class="text-3xl font-bold text-amber-600">0g</div></div>
+            <div class="text-center p-4 bg-blue-50 rounded-xl"><div class="text-xs text-stone-500 font-semibold mb-2">Fat</div><div id="fat-total" class="text-3xl font-bold text-blue-600">0g</div></div>
+           </div>
+          </div>
+          <div id="meals-list" class="space-y-3 mb-6 max-h-64 overflow-auto"><p class="text-sm text-stone-400 text-center py-8">Loading...</p></div>
+          <button onclick="showMealModal()" class="w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-xl font-semibold transition-all text-lg">+ Log Meal with Photo</button>
+         </div>
+         <div id="diet-advice-card" class="hidden mb-8 p-6 bg-white rounded-2xl border border-amber-200 shadow-sm">
+          <h3 class="font-display text-xl font-bold text-amber-900 mb-4">🥗 Recommended Diet for You</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-xl"><h4 class="text-green-700 font-bold text-sm mb-2">✅ ADD THESE</h4><ul id="diet-add-list" class="text-stone-700 text-sm space-y-1"></ul></div>
+            <div class="bg-red-50 p-4 rounded-xl"><h4 class="text-red-700 font-bold text-sm mb-2">❌ AVOID THESE</h4><ul id="diet-avoid-list" class="text-stone-700 text-sm space-y-1"></ul></div>
+          </div>
+         </div>
+        </div>
+       
+        <div id="view-pcos" class="hidden mb-10">
+          <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 justify-center items-start w-full max-w-7xl mx-auto px-4">
+           
+            <div class="w-full lg:w-[60%] glass-card rounded-2xl p-8 border border-stone-200/60 shadow-sm">
+              <h2 class="font-display text-3xl font-bold text-stone-800 mb-8">Daily Bio-Inputs</h2>
+              
+              <div class="mb-8 pb-8 border-b border-stone-100">
+                <h3 class="font-semibold text-stone-800 mb-4 text-sm uppercase tracking-wider">Health Profile</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <button onclick="setHealthCondition('none')" id="cond-none" class="p-3 border-2 border-stone-300 rounded-xl text-center font-semibold text-stone-700 text-sm hover:border-green-500 hover:bg-green-50 transition-all">None</button> 
+                  <button onclick="setHealthCondition('pcos')" id="cond-pcos" class="p-3 border-2 border-stone-300 rounded-xl text-center font-semibold text-stone-700 text-sm hover:border-purple-500 hover:bg-purple-50 transition-all">PCOS</button> 
+                  <button onclick="setHealthCondition('pcod')" id="cond-pcod" class="p-3 border-2 border-stone-300 rounded-xl text-center font-semibold text-stone-700 text-sm hover:border-purple-500 hover:bg-purple-50 transition-all">PCOD</button> 
+                  <button onclick="setHealthCondition('endo')" id="cond-endo" class="p-3 border-2 border-stone-300 rounded-xl text-center font-semibold text-stone-700 text-sm hover:border-pink-500 hover:bg-pink-50 transition-all">Endo</button>
+                </div>
+              </div>
+
+              <div class="space-y-8">
+                <h3 class="font-semibold text-stone-800 text-sm uppercase tracking-wider mb-4">Current State</h3>
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-stone-600 font-semibold">Mental Focus</span> 
+                    <span id="mood-label" class="text-sm font-semibold text-stone-800">😊 Clear</span>
+                  </div>
+                  <input type="range" id="mood-slider" min="1" max="5" value="3" oninput="updateSymptom('mood', this.value)" class="w-full accent-green-600 cursor-pointer">
+                </div>
+                
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-stone-600 font-semibold">Inflammation / Bloating</span> 
+                    <span id="bloating-label" class="text-sm font-semibold text-stone-800">Minimal</span>
+                  </div>
+                  <input type="range" id="bloating-slider" min="1" max="5" value="2" oninput="updateSymptom('bloating', this.value)" class="w-full accent-green-600 cursor-pointer">
+                </div>
+                
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-stone-600 font-semibold">Recovery (Sleep)</span> 
+                    <span id="sleep-label" class="text-sm font-semibold text-stone-800">Deep</span>
+                  </div>
+                  <input type="range" id="sleep-slider" min="1" max="5" value="4" oninput="updateSymptom('sleep', this.value)" class="w-full accent-green-600 cursor-pointer">
+                </div>
+                
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-stone-600 font-semibold">Physical Energy</span> 
+                    <span id="energy-label" class="text-sm font-semibold text-stone-800">High</span>
+                  </div>
+                  <input type="range" id="energy-slider" min="1" max="5" value="4" oninput="updateSymptom('energy', this.value)" class="w-full accent-green-600 cursor-pointer">
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-[400px] flex-shrink-0 glass-card rounded-2xl p-8 flex flex-col items-center justify-center bg-gradient-to-b from-white to-green-50/50 border border-green-100 shadow-sm relative lg:sticky lg:top-6">
+              <h3 class="text-stone-500 font-bold tracking-widest text-xs uppercase mb-6">Daily Readiness Score</h3>
+              
+              <div class="relative w-48 h-48 mb-8">
+                <svg class="w-48 h-48 transform -rotate-90">
+                  <circle cx="96" cy="96" r="84" stroke="#F3F4F6" stroke-width="10" fill="none" /> 
+                  <circle id="readiness-ring" cx="96" cy="96" r="84" stroke="#16A34A" stroke-width="10" fill="none" stroke-dasharray="527.8" stroke-dashoffset="100" stroke-linecap="round" class="transition-all duration-700 ease-out" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                  <span id="readiness-score" class="text-6xl font-display font-bold text-stone-800">82<span class="text-2xl text-stone-400">%</span></span>
+                </div>
+              </div>
+
+              <div id="readiness-protocol" class="w-full bg-white p-5 rounded-xl border border-stone-100 shadow-sm text-left text-stone-700 text-sm">
+                </div>
+              
+              <button onclick="saveSymptoms()" id="save-symptoms-btn" class="w-full mt-6 py-3.5 bg-green-600 text-white rounded-xl font-bold transition-all hover:bg-green-700 shadow-md">Save Daily Log</button>
+            </div>
+            
+          </div>
+        </div>
+
+        <div id="view-settings" class="hidden space-y-6">
+         <div class="glass-card rounded-2xl p-8 max-w-4xl mx-auto">
+          <h2 class="font-display text-3xl font-bold text-stone-800 mb-8">Cycle & Preferences</h2>
+          <form id="settings-form" onsubmit="saveSettings(event)" class="space-y-6">
+            <div>
+              <label class="block text-sm font-semibold text-stone-700 mb-2">Start of Current Cycle (Period Date)</label>
+              <input type="date" id="settings-last-period" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none text-stone-700">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-stone-700 mb-2">When do you experience peak fatigue?</label>
+              <select id="settings-fatigue" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none bg-white text-stone-700">
+                <option value="Morning">Morning</option>
+                <option value="Afternoon">Afternoon</option>
+                <option value="Evening">Evening</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-stone-700 mb-2">Daily Calorie Goal</label>
+              <input type="number" id="settings-calorie-goal" required min="500" max="5000" class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-stone-700 mb-2">Lifestyle Condition</label>
+              <select id="settings-condition" class="w-full px-4 py-3 rounded-xl border border-stone-200 bg-white outline-none">
+                <option value="none">None</option>
+                <option value="pcos">PCOS</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="thyroid">Thyroid</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-stone-700 mb-2">Optimal Focus Schedule</label>
+              <select id="settings-focus" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-green-500 outline-none bg-white text-stone-700">
+                <option value="Morning Focus 🌅">Morning Focus 🌅</option>
+                <option value="Afternoon Focus ☀️">Afternoon Focus ☀️</option>
+                <option value="Night Focus 🌙">Night Focus 🌙</option>
+              </select>
+            </div>
+            <button type="submit" id="settings-submit-btn" class="w-full mt-4 py-4 bg-[#2c2826] hover:bg-black text-white rounded-xl font-semibold transition-all text-lg">Save Changes</button>
+          </form>
+         </div>
+        </div>
+       
+       </div>
+      </div>
+     </main>
+    </div>
+   </div>
+   
+   <div id="meal-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm overflow-y-auto">
+    <div class="glass-card rounded-3xl p-8 w-full max-w-lg shadow-2xl animate-fade-in my-8 relative"><button onclick="hideMealModal()" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-600 transition-colors">✖</button>
+     <h2 class="font-display text-2xl font-bold text-stone-800 mb-6">Log a Meal 🍽️</h2>
+     <div id="photo-preview" class="hidden mb-6"><img id="meal-photo-img" src="" alt="Meal photo" class="w-full rounded-xl mb-4 max-h-64 object-cover"> <button onclick="resetPhoto()" class="w-full py-2 text-stone-600 hover:text-red-600 font-medium transition-all text-sm">Change Photo</button></div>
+     <form onsubmit="addMeal(event)" class="space-y-4">
+      <div id="photo-input-section"><label class="block text-sm font-semibold text-stone-700 mb-2">Upload Food Photo</label> <input type="file" id="meal-photo" accept="image/*" onchange="previewPhoto()" class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-stone-300"></div>
+      <div><label class="block text-sm font-semibold text-stone-700 mb-1">Meal Name</label> <input type="text" id="meal-name" required class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none"></div>
+      <div class="grid grid-cols-2 gap-4">
+       <div><label class="block text-sm font-semibold text-stone-700 mb-1">Calories</label> <input type="number" id="meal-calories" required class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none"></div>
+       <div><label class="block text-sm font-semibold text-stone-700 mb-1">Protein (g)</label> <input type="number" id="meal-protein" required class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none"></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+       <div><label class="block text-sm font-semibold text-stone-700 mb-1">Carbs (g)</label> <input type="number" id="meal-carbs" required class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none"></div>
+       <div><label class="block text-sm font-semibold text-stone-700 mb-1">Fat (g)</label> <input type="number" id="meal-fat" required class="w-full px-4 py-3 rounded-xl border border-stone-200 outline-none"></div>
+      </div><button type="submit" id="meal-submit-btn" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-semibold transition-all">Add Meal</button>
+     </form>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    // --- APP STATE & API SETUP ---
+    const API_URL = 'http://localhost:5000/api'; // Link to Backend
+    
+    let currentUser = null;
+    let authMode = 'login';
+    let tasksData = [];
+    let mealsData = [];
+    let currentHealthCondition = 'none';
+    let currentRecommendedTaskType = 'high';
+   
+    const dietDatabase = {
+      pcos: { add: ["High-fiber veggies", "Lean protein", "Healthy fats"], avoid: ["Sugary drinks", "White bread", "Fried foods"] },
+      diabetes: { add: ["Leafy greens", "Whole grains", "Berries"], avoid: ["Fruit juices", "Sweets", "Trans fats"] },
+      thyroid: { add: ["Brazil nuts", "Eggs", "Chicken"], avoid: ["Raw kale/broccoli", "Soy", "Gluten"] }
+    };
+   
+    // Date Util
+    function updateDate() {
+      const now = new Date();
+      document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    updateDate();
+    
+    // Date Util (Fixed for Local Timezone)
+    function getTodayStr() { 
+      const now = new Date();
+      const offset = now.getTimezoneOffset() * 60000;
+      const localDate = new Date(now.getTime() - offset);
+      return localDate.toISOString().split('T')[0]; 
+    }
+   
+    // Navigation
+    function showView(viewName) {
+      document.querySelectorAll('[id^="view-"]').forEach(view => view.classList.add('hidden'));
+      const targetView = document.getElementById(`view-${viewName}`);
+      if (targetView) targetView.classList.remove('hidden');
+    }
+   
+    // --- AUTHENTICATION ---
+    function showAuth(mode) {
+      authMode = mode;
+      document.getElementById('auth-modal').classList.remove('hidden');
+      document.getElementById('auth-modal').classList.add('flex');
+      if (mode === 'signup') {
+        document.getElementById('auth-title').textContent = 'Create Account';
+        document.getElementById('auth-submit').textContent = 'Sign Up';
+        document.getElementById('auth-name-field').classList.remove('hidden');
+        document.getElementById('auth-toggle-text').textContent = 'Already have an account?';
+        document.getElementById('auth-toggle-btn').textContent = 'Log in';
+      } else {
+        document.getElementById('auth-title').textContent = 'Welcome Back';
+        document.getElementById('auth-submit').textContent = 'Log In';
+        document.getElementById('auth-name-field').classList.add('hidden');
+        document.getElementById('auth-toggle-text').textContent = "Don't have an account?";
+        document.getElementById('auth-toggle-btn').textContent = 'Sign up';
+      }
+    }
+   
+    function hideAuth() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('auth-modal').classList.remove('flex');
+      document.getElementById('auth-form').reset();
+    }
+   
+    function toggleAuthMode() { showAuth(authMode === 'login' ? 'signup' : 'login'); }
+   
+    async function handleAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const name = authMode === 'signup' ? document.getElementById('auth-name').value : email.split('@')[0];
+      
+      const endpoint = authMode === 'signup' ? '/register' : '/login';
+      const payload = { email, password, name };
+
+      try {
+        const res = await fetch(`${API_URL}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          currentUser = data.user || payload;
+          localStorage.setItem('cyclesync_user', JSON.stringify(currentUser));
+          hideAuth();
+          showDashboard();
+        } else {
+          showToast(data.error || 'Auth failed', 'error');
+        }
+      } catch (err) {
+        showToast("Backend disconnected. Is server.js running?", 'error');
+      }
+    }
+   
+    function handleLogout() {
+      localStorage.clear(); // Wipes all local storage
+      location.reload();
+    }
+   
+    // Check local storage strictly for session persistence
+    const savedUser = localStorage.getItem('cyclesync_user');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      showDashboard();
+    }
+
+    function showDashboard() {
+      document.getElementById('landing-page').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('user-name').textContent = currentUser.name || currentUser.email.split('@')[0];
+      document.getElementById('user-avatar').textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+     
+      // Check if user has settings configured (First Login Redirect)
+      if (currentUser?.settings && currentUser.settings.lastPeriod) {
+        document.getElementById('settings-last-period').value = currentUser.settings.lastPeriod;
+        document.getElementById('settings-fatigue').value = currentUser.settings.fatigueTime || 'Afternoon';
+        document.getElementById('settings-focus').value = currentUser.settings.focusSchedule || 'Night Focus 🌙';
+        document.getElementById('settings-calorie-goal').value = currentUser.settings.calorieGoal || 2000;
+        document.getElementById('settings-condition').value = currentUser.settings.condition || 'none';
+        
+        updateCycleData();
+        fetchAllDataFromDB(); // <--- Trigger DB Fetch!
+        showView('dashboard');
+      } else {
+        showView('settings');
+        showToast('Welcome! Please set up your cycle preferences to get started.', 'success');
+      }
+    }
+
+    // --- DATA FETCHING (MONGODB) ---
+    async function fetchAllDataFromDB() {
+        if (!currentUser) return;
+        try {
+            const [tasksRes, mealsRes] = await Promise.all([
+                fetch(`${API_URL}/tasks/${currentUser.email}`),
+                fetch(`${API_URL}/meals/${currentUser.email}`)
+            ]);
+            tasksData = await tasksRes.json();
+            mealsData = await mealsRes.json();
+            
+            renderTasks();
+            renderMeals();
+            updateDashboardPreviews(); // Existing function
+            calculateBioInsights();     // <--- ADD THIS NEW LINE
+        } catch (err) {
+            console.error("Database fetch error:", err);
+        }
+    }
+
+    // --- TASKS PLANNER (DB CONNECTED) ---
+    async function addPendingTask(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-pending-task');
+      const typeSelect = document.getElementById('new-task-type');
+      const deadlineInput = document.getElementById('new-task-deadline'); 
+      
+      const taskData = {
+        userEmail: currentUser.email,
+        text: input.value.trim(),
+        category: typeSelect.value,
+        deadline: deadlineInput.value, 
+        done: false,
+        date: getTodayStr()
+      };
+     
+      try {
+        const res = await fetch(`${API_URL}/tasks`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(taskData)
+        });
+        if(res.ok) {
+            input.value = '';
+            deadlineInput.value = ''; // clear date after adding
+            showToast('Added to pending backlog!', 'success');
+            fetchAllDataFromDB();
+        }
+      } catch(err) { showToast('Error saving task', 'error'); }
+    }
+
+    // 1. Toggle Task (Check/Uncheck with Strikethrough)
+    async function toggleTask(taskId, isCurrentlyDone) {
+      const taskIndex = tasksData.findIndex(t => String(t._id) === String(taskId));
+      if (taskIndex !== -1) {
+          tasksData[taskIndex].done = !isCurrentlyDone;
+          renderTasks(); 
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/tasks/${taskId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ done: !isCurrentlyDone })
+        });
+        if (!res.ok) fetchAllDataFromDB(); 
+      } catch (err) { console.error('Network error:', err); }
+    }
+
+    // 2. Delete Task (Trash Can Icon)
+    async function deleteTask(taskId) {
+      try {
+        tasksData = tasksData.filter(t => String(t._id) !== String(taskId));
+        renderTasks();
+
+        await fetch(`${API_URL}/tasks/${taskId}`, { method: 'DELETE' });
+      } catch (err) { console.error('Failed to delete task:', err); }
+    }
+   
+    // 3. Render Tasks
+    function renderTasks() {
+      const recContainer = document.getElementById('recommended-tasks');
+      const pendingContainer = document.getElementById('pending-tasks');
+      if (!recContainer || !pendingContainer) return;
+     
+      const recommendedTasks = tasksData.filter(t => t.category === currentRecommendedTaskType);
+      const otherTasks = tasksData.filter(t => t.category !== currentRecommendedTaskType);
+     
+      const buildHtml = (tasksArray) => tasksArray.length ? tasksArray.map(t => {
+        const bgHover = t.category === 'high' ? 'hover:bg-green-50' : 'hover:bg-purple-50';
+        const bgChecked = t.category === 'high' ? 'bg-green-500 border-green-500' : 'bg-purple-500 border-purple-500';
+        const icon = t.category === 'high' ? '⚡' : '🧘';
+        const typeName = t.category === 'high' ? 'High Energy' : 'Restful';
+        
+        let deadlineHtml = '';
+        if (t.deadline) {
+            const dateObj = new Date(t.deadline);
+            deadlineHtml = `<span class="ml-3 text-xs font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded">📅 Due: ${dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>`;
+        }
+
+        const textStyle = t.done ? 'line-through text-stone-400' : 'text-stone-700';
+        const checkIcon = t.done ? '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : '';
+        const boxStyle = t.done ? bgChecked : 'border-stone-300';
+       
+        return `
+        <div class="flex items-center gap-4 p-4 bg-white rounded-xl border border-stone-100 shadow-sm group ${bgHover} transition-colors">
+          <button onclick="toggleTask('${t._id}', ${t.done})" class="w-6 h-6 rounded border-2 ${boxStyle} flex items-center justify-center flex-shrink-0 transition-all hover:bg-opacity-80">
+            ${checkIcon}
+          </button>
+          
+          <div class="flex-1 flex flex-col">
+            <span class="text-base font-medium transition-all ${textStyle}">${t.text}</span>
+            <div class="flex items-center mt-1">
+                <span class="text-xs text-stone-500">${icon} ${typeName}</span>
+                ${deadlineHtml}
+            </div>
+          </div>
+          
+          <button onclick="deleteTask('${t._id}')" class="p-2 text-stone-400 hover:text-red-600 transition-all rounded-lg hover:bg-red-50" title="Delete Task">🗑️</button>
+        </div>
+      `}).join('') : '<p class="text-stone-400 text-sm italic py-2">No activities here right now.</p>';
+     
+      recContainer.innerHTML = buildHtml(recommendedTasks);
+      pendingContainer.innerHTML = buildHtml(otherTasks);
+
+      const pendingCount = tasksData.filter(t => !t.done).length;
+      const el = document.getElementById('task-preview');
+      if(el) el.textContent = `${pendingCount} pending tasks to tackle!`;
+    }
+   
+    // --- MEAL TRACKER (DB CONNECTED) ---
+    function showMealModal() { document.getElementById('meal-modal').classList.remove('hidden'); document.getElementById('meal-modal').classList.add('flex'); }
+    function hideMealModal() { document.getElementById('meal-modal').classList.add('hidden'); document.getElementById('meal-modal').classList.remove('flex'); document.querySelector('#meal-modal form').reset(); resetPhoto(); }
+   
+    function previewPhoto() {
+      const file = document.getElementById('meal-photo').files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      
+      reader.onload = async (e) => {
+        const imageBase64 = e.target.result;
+        
+        document.getElementById('meal-photo-img').src = imageBase64;
+        document.getElementById('photo-preview').classList.remove('hidden');
+        document.getElementById('photo-input-section').classList.add('hidden');
+       
+        const btn = document.getElementById('meal-submit-btn');
+        btn.textContent = '🤖 AI Analyzing...';
+        btn.disabled = true;
+        showToast('📸 Analyzing food with AI...', 'success');
+        
+        try {
+            const response = await fetch(`${API_URL}/analyze-meal`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ imageBase64 })
+            });
+            
+            if (!response.ok) throw new Error("AI failed");
+            
+            const data = await response.json();
+            
+            document.getElementById('meal-name').value = data.name || 'Unknown Food';
+            document.getElementById('meal-calories').value = data.calories || 0;
+            document.getElementById('meal-protein').value = data.protein || 0;
+            document.getElementById('meal-carbs').value = data.carbs || 0;
+            document.getElementById('meal-fat').value = data.fat || 0;
+            
+            showToast('✅ AI Analysis complete!', 'success');
+        } catch (err) {
+            console.error(err);
+            showToast('❌ AI Failed. Please enter manually.', 'error');
+        } finally {
+            btn.textContent = 'Add Meal';
+            btn.disabled = false;
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+   
+    function resetPhoto() {
+      document.getElementById('meal-photo').value = '';
+      document.getElementById('photo-preview').classList.add('hidden');
+      document.getElementById('photo-input-section').classList.remove('hidden');
+    }
+   
+    async function addMeal(e) {
+      e.preventDefault();
+      const btn = document.getElementById('meal-submit-btn');
+      btn.textContent = 'Adding...';
+      
+      const mealData = {
+        userEmail: currentUser.email,
+        name: document.getElementById('meal-name').value,
+        cals: parseInt(document.getElementById('meal-calories').value) || 0,
+        protein: parseInt(document.getElementById('meal-protein').value) || 0,
+        carbs: parseInt(document.getElementById('meal-carbs').value) || 0,
+        fat: parseInt(document.getElementById('meal-fat').value) || 0,
+        date: getTodayStr()
+      };
+
+      try {
+        await fetch(`${API_URL}/meals`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(mealData)
+        });
+        hideMealModal();
+        showToast('Meal logged! 🥗', 'success');
+        fetchAllDataFromDB();
+      } catch (err) { showToast('Failed to save meal', 'error'); }
+      btn.textContent = 'Add Meal';
+    }
+   
+    function renderMeals() {
+      const todayMeals = mealsData.filter(m => m.date === getTodayStr());
+      const container = document.getElementById('meals-list');
+     
+      const totalCalories = todayMeals.reduce((sum, m) => sum + (m.cals || 0), 0);
+      const totalProtein = todayMeals.reduce((sum, m) => sum + (m.protein || 0), 0);
+      const totalCarbs = todayMeals.reduce((sum, m) => sum + (m.carbs || 0), 0);
+      const totalFat = todayMeals.reduce((sum, m) => sum + (m.fat || 0), 0);
+     
+      const caloriesElement = document.getElementById('calories-consumed');
+      caloriesElement.textContent = totalCalories;
+      
+      document.getElementById('protein-total').textContent = `${totalProtein}g`;
+      document.getElementById('carbs-total').textContent = `${totalCarbs}g`;
+      document.getElementById('fat-total').textContent = `${totalFat}g`;
+     
+      const goal = currentUser?.settings?.calorieGoal || 1800;
+      document.getElementById('calorie-goal-display').textContent = goal;
+
+      const calorieRing = document.getElementById('calorie-ring');
+      let warningBanner = document.getElementById('calorie-warning-banner');
+      
+      if (!warningBanner) {
+          warningBanner = document.createElement('div');
+          warningBanner.id = 'calorie-warning-banner';
+          warningBanner.className = 'bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-xl text-sm font-semibold mb-6 flex items-center gap-2 hidden transition-all';
+          warningBanner.innerHTML = '<span class="text-xl">⚠️</span> <div><p>Calorie Goal Exceeded</p><p class="text-xs font-normal">Consider light, high-fiber meals for the rest of the day.</p></div>';
+          container.parentNode.insertBefore(warningBanner, container);
+      }
+
+      if (totalCalories > goal) {
+          caloriesElement.classList.remove('text-stone-800');
+          caloriesElement.classList.add('text-red-600');
+          calorieRing.setAttribute('stroke', '#DC2626');
+          warningBanner.classList.remove('hidden');
+      } else {
+          caloriesElement.classList.add('text-stone-800');
+          caloriesElement.classList.remove('text-red-600');
+          calorieRing.setAttribute('stroke', '#A7C4A0');
+          warningBanner.classList.add('hidden');
+      }
+
+      const progress = Math.min(totalCalories / goal, 1);
+      const circumference = 439.8;
+      calorieRing.style.strokeDashoffset = circumference * (1 - progress);
+     
+      if (todayMeals.length) {
+        container.innerHTML = todayMeals.map(m => `
+          <div class="flex items-center gap-3 p-4 bg-amber-50 rounded-lg">
+            <div class="w-10 h-10 bg-amber-200 rounded-lg flex items-center justify-center text-lg flex-shrink-0">🍽️</div>
+            <div class="flex-1">
+              <div class="text-sm font-semibold text-stone-800">${m.name}</div>
+              <div class="text-xs text-stone-500">${m.cals} cal • ${m.protein}g P • ${m.carbs}g C • ${m.fat}g F</div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        container.innerHTML = '<p class="text-sm text-stone-400 text-center py-8">No meals logged yet today</p>';
+      }
+
+      const np = document.getElementById('nutrition-preview');
+      if(np) np.textContent = `${totalCalories} cal • ${totalProtein}g protein`;
+    }
+   
+    // --- WELLNESS SYMPTOMS (DB CONNECTED) ---
+    const moodLabels = ['😔 Brain Fog', '😐 Scattered', '😊 Clear', '😄 Sharp', '🤩 Flow State'];
+    const bloatingLabels = ['None', 'Minimal', 'Mild', 'Moderate', 'Severe Flare-up'];
+    const sleepLabels = ['Poor', 'Restless', 'Fair', 'Deep', 'Fully Recovered'];
+    const energyLabels = ['Depleted', 'Low', 'Steady', 'High', 'Peak'];
+
+    function updateSymptom(type, value) {
+      const val = parseInt(value);
+      if (type === 'mood') document.getElementById('mood-label').textContent = moodLabels[val - 1];
+      if (type === 'bloating') document.getElementById('bloating-label').textContent = bloatingLabels[val - 1];
+      if (type === 'sleep') document.getElementById('sleep-label').textContent = sleepLabels[val - 1];
+      if (type === 'energy') document.getElementById('energy-label').textContent = energyLabels[val - 1];
+      
+      calculateReadinessScore(); 
+    }
+
+    function setHealthCondition(condition) {
+      currentHealthCondition = condition;
+      document.querySelectorAll('[id^="cond-"]').forEach(btn => {
+        btn.classList.remove('border-green-500', 'bg-green-50', 'border-purple-500', 'bg-purple-50', 'border-pink-500', 'bg-pink-50');
+      });
+     
+      const condBtn = document.getElementById(`cond-${condition}`);
+      if (condBtn) {
+        if (condition === 'none') condBtn.classList.add('border-green-500', 'bg-green-50');
+        else if (condition === 'pcos' || condition === 'pcod') condBtn.classList.add('border-purple-500', 'bg-purple-50');
+        else condBtn.classList.add('border-pink-500', 'bg-pink-50');
+      }
+      
+      calculateReadinessScore(); 
+    }
+
+    // NEW: Dynamic Actionable Performance Algorithm
+    function calculateReadinessScore() {
+      const mood = parseInt(document.getElementById('mood-slider').value);
+      const bloating = parseInt(document.getElementById('bloating-slider').value);
+      const sleep = parseInt(document.getElementById('sleep-slider').value);
+      const energy = parseInt(document.getElementById('energy-slider').value);
+
+      // Math: Max 20 points
+      const rawScore = mood + sleep + energy + (6 - bloating);
+      const percentage = Math.round((rawScore / 20) * 100);
+
+      // Update UI Circle and Number
+      document.getElementById('readiness-score').innerHTML = `${percentage}<span class="text-2xl">%</span>`;
+      const ring = document.getElementById('readiness-ring');
+      ring.style.strokeDashoffset = 439.8 * (1 - (percentage / 100));
+
+      // Color coding the ring
+      let ringColor = '#4ADE80'; // Green
+      let statusHeadline = '✅ Peak Capacity';
+      let statusColor = 'text-green-400';
+
+      if (percentage < 50) {
+          ringColor = '#EF4444'; // Red
+          statusHeadline = '🛑 Low Capacity Detected';
+          statusColor = 'text-red-400';
+      } else if (percentage < 75) {
+          ringColor = '#FBBF24'; // Yellow
+          statusHeadline = '⚠️ Moderate Capacity';
+          statusColor = 'text-yellow-400';
+      }
+      ring.setAttribute('stroke', ringColor);
+
+      // --- DYNAMIC SLIDER ANALYSIS ---
+      let specificAdvice = [];
+      
+      if (sleep <= 2) {
+          specificAdvice.push("<li><strong>Sleep Deficit:</strong> Your recovery is low. Prioritize a 20-min power nap today and aim for an early bedtime.</li>");
+      }
+      if (energy <= 2) {
+          specificAdvice.push("<li><strong>Energy Drop:</strong> You are depleted. Swap intense workouts for light stretching or walking today.</li>");
+      }
+      if (mood <= 2) {
+          specificAdvice.push("<li><strong>Brain Fog:</strong> Mental focus is scattered. Break tasks into 15-minute chunks and take frequent screen breaks.</li>");
+      }
+      if (bloating >= 4) {
+          specificAdvice.push("<li><strong>Inflammation:</strong> High bloating detected. Drink ginger or peppermint tea and avoid salty, processed foods.</li>");
+      }
+
+      // Format the advice bullets
+      let adviceHtml = specificAdvice.length > 0 
+        ? `<ul class="text-xs text-stone-300 mt-2 space-y-1.5 list-none">${specificAdvice.join('')}</ul>`
+        : `<p class="text-xs text-stone-300 mt-1">All vitals are optimal! Front-load your hardest 'Deep Work' and pitches today.</p>`;
+
+      // Add condition-specific bio-hacks
+      let conditionAdvice = '';
+      if (currentHealthCondition === 'pcos' || currentHealthCondition === 'pcod') {
+          conditionAdvice = `<div class="mt-3 pt-3 border-t border-white/20"><span class="text-purple-300 text-xs block">💜 <strong>PCOS Strategy:</strong> Keep blood sugar stable today. Pair your carbs with heavy protein to prevent insulin crashes.</span></div>`;
+      } else if (currentHealthCondition === 'endo') {
+          conditionAdvice = `<div class="mt-3 pt-3 border-t border-white/20"><span class="text-pink-300 text-xs block">🌸 <strong>Endo Strategy:</strong> Focus heavily on anti-inflammatory foods (omega-3s) to soothe symptoms, and use a heating pad tonight.</span></div>`;
+      }
+
+      // Inject into the UI
+      const protocolDiv = document.getElementById('readiness-protocol');
+      protocolDiv.innerHTML = `
+        <h4 class="${statusColor} font-bold text-sm mb-1">${statusHeadline}</h4>
+        ${adviceHtml}
+        ${conditionAdvice}
+      `;
+    }
+    setTimeout(calculateReadinessScore, 500);
+   
+    async function saveSymptoms() {
+      const btn = document.getElementById('save-symptoms-btn');
+      btn.textContent = 'Saving...';
+
+      const payload = {
+        userEmail: currentUser.email,
+        symptoms: `Mood: ${document.getElementById('mood-label').textContent}, Bloating: ${document.getElementById('bloating-label').textContent}, Sleep: ${document.getElementById('sleep-label').textContent}, Energy: ${document.getElementById('energy-label').textContent}`,
+        calories: parseInt(document.getElementById('calories-consumed').textContent) || 0,
+        tookMeds: (currentUser?.settings?.condition && currentUser.settings.condition !== 'none')
+      };
+
+      try {
+          await fetch(`${API_URL}/logs`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+          showToast('Wellness log saved! 💜', 'success');
+      } catch(err) { showToast('Error saving log', 'error'); }
+      btn.textContent = 'Save Today\'s Log';
+    }
+   
+    function showToast(message, type = 'success') {
+      const existing = document.querySelector('.toast-notification');
+      if (existing) existing.remove();
+      const toast = document.createElement('div');
+      toast.className = `toast-notification fixed bottom-6 right-6 px-6 py-3 rounded-xl shadow-lg z-50 animate-fade-in ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // --- SETTINGS, CYCLE LOGIC & RECOMMENDATIONS ---
+    async function saveSettings(e) {
+      e.preventDefault();
+      const btn = document.getElementById('settings-submit-btn');
+      btn.textContent = 'Saving...';
+     
+      const settings = {
+        lastPeriod: document.getElementById('settings-last-period').value,
+        fatigueTime: document.getElementById('settings-fatigue').value,
+        focusSchedule: document.getElementById('settings-focus').value,
+        calorieGoal: parseInt(document.getElementById('settings-calorie-goal').value) || 2000,
+        condition: document.getElementById('settings-condition').value
+      };
+
+      try {
+          const res = await fetch(`${API_URL}/save-settings`, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ email: currentUser.email, settings })
+          });
+          const data = await res.json();
+          if (res.ok) {
+              currentUser = data.user;
+              localStorage.setItem('cyclesync_user', JSON.stringify(currentUser));
+              showToast('Settings saved successfully!', 'success');
+              updateCycleData();
+              renderMeals(); 
+              showView('dashboard');
+          }
+      } catch (err) { showToast('Error saving settings', 'error'); }
+      
+      btn.textContent = 'Save Changes';
+    }
+
+    function updateCycleData() {
+      if (!currentUser?.settings?.lastPeriod) return;
+
+      const condition = currentUser.settings.condition;
+      const card = document.getElementById('diet-advice-card');
+      if (condition && condition !== 'none' && dietDatabase[condition]) {
+        card.classList.remove('hidden');
+        const data = dietDatabase[condition];
+        document.getElementById('diet-add-list').innerHTML = data.add.map(i => `<li>• ${i}</li>`).join('');
+        document.getElementById('diet-avoid-list').innerHTML = data.avoid.map(i => `<li>• ${i}</li>`).join('');
+      } else { card.classList.add('hidden'); }
+
+      const lastDate = new Date(currentUser.settings.lastPeriod);
+      lastDate.setHours(0,0,0,0);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const diffTime = Math.abs(today - lastDate);
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      let currentDay = (diffDays % 28) + 1;
+
+      const alertBanner = document.getElementById('period-reminder-alert');
+      if (currentDay >= 27) alertBanner.classList.remove('hidden');
+      else alertBanner.classList.add('hidden');
+
+      let phase = '', emoji = '', energy = '', desc = '';
+      if (currentDay <= 5) {
+        phase = 'Menstrual'; emoji = '🌱'; energy = 'Low 🔋'; currentRecommendedTaskType = 'restful';
+        desc = `<strong>🌱 Menstrual Phase:</strong> Your hormones are lowest. Since you experience peak fatigue in the <strong>${currentUser.settings.fatigueTime}</strong>, prioritize critical tasks during your <strong>${currentUser.settings.focusSchedule}</strong> block!`;
+      } else if (currentDay <= 13) {
+        phase = 'Follicular'; emoji = '🌸'; energy = 'High ⚡'; currentRecommendedTaskType = 'high';
+        desc = '<strong>🌸 Follicular Phase:</strong> Rising estrogen boosts energy and creativity. This is your power phase.';
+      } else if (currentDay <= 17) {
+        phase = 'Ovulatory'; emoji = '✨'; energy = 'Peak 🔥'; currentRecommendedTaskType = 'high';
+        desc = '<strong>✨ Ovulatory Phase:</strong> Peak hormones. You are highly communicative and energetic.';
+      } else {
+        phase = 'Luteal'; emoji = '🍂'; energy = 'Declining 📉'; currentRecommendedTaskType = 'restful';
+        desc = '<strong>🍂 Luteal Phase:</strong> Energy winds down. Focus on organizing and self-care.';
+      }
+
+      document.getElementById('dash-cycle-info').innerHTML = `${phase} Phase &bull; Day ${currentDay} &bull; ${energy}`;
+      
+      document.getElementById('cycle-ring-emoji').textContent = emoji;
+      document.getElementById('cycle-ring-phase').textContent = phase;
+      document.getElementById('cycle-ring-day').textContent = `Day ${currentDay}`;
+      document.getElementById('cycle-energy-level').textContent = energy;
+      document.getElementById('cycle-phase-desc').innerHTML = desc;
+
+      const recBanner = document.getElementById('planner-recommendation');
+      if (recBanner) {
+        recBanner.classList.remove('hidden');
+        if (currentRecommendedTaskType === 'high') {
+          recBanner.className = 'p-4 mb-6 rounded-xl bg-green-50 text-green-800 text-sm font-medium border border-green-200';
+          recBanner.innerHTML = `💡 <strong>Phase Recommendation:</strong> You are in your ${phase} phase right now. We've brought your <strong>High Energy</strong> backlog tasks to the top today!`;
+        } else {
+          recBanner.className = 'p-4 mb-6 rounded-xl bg-purple-50 text-purple-800 text-sm font-medium border border-purple-200';
+          recBanner.innerHTML = `💡 <strong>Phase Recommendation:</strong> You are in your ${phase} phase right now. Your body needs recovery. We've brought your <strong>Restful</strong> backlog tasks to the top today!`;
+        }
+      }
+      
+      if (tasksData.length > 0) renderTasks();
+    }
+
+
+    function calculateBioInsights() {
+      if (!tasksData.length) return;
+
+      // 1. Efficiency Calculation
+      const completed = tasksData.filter(t => t.done);
+      if (completed.length > 0) {
+          const highEnergyMatch = completed.filter(t => t.category === 'high').length;
+          const efficiency = Math.round((highEnergyMatch / completed.length) * 100);
+          document.getElementById('dash-efficiency-score').textContent = `${efficiency}%`;
+
+          // 2. AI Insight Generation
+          const insightEl = document.getElementById('dash-ai-insight');
+          if (efficiency > 75) {
+              insightEl.innerHTML = "<strong>Peak Performance:</strong> You are excellently matching your high-focus tasks to your peak energy windows. Maintain this rhythm to avoid Luteal-phase burnout.";
+          } else if (efficiency > 40) {
+              insightEl.innerHTML = "<strong>Moderate Alignment:</strong> You're getting work done, but sometimes pushing through low-energy days. Try shifting deep work to your Follicular week.";
+          } else {
+              insightEl.innerHTML = "<strong>Optimization Needed:</strong> Most of your high-effort tasks are happening during low-hormone phases. Reschedule admin to your period week to reclaim your energy.";
+          }
+      }
+
+      // 3. Readiness Pull
+      const currentReadiness = document.getElementById('readiness-score')?.textContent || '82%';
+      document.getElementById('dash-avg-readiness').textContent = currentReadiness;
+    }
+
+    let productivityChart, trendChart;
+
+function renderAnalyticsCharts() {
+    // 1. THE WARNING CHECK (Are there any completed tasks?)
+    const completedTasks = tasksData ? tasksData.filter(t => t.done).length : 0;
+    
+    if (completedTasks === 0) {
+        // Show a warning in the AI box instead of crashing or showing blank charts
+        const insightEl = document.getElementById('dash-ai-insight');
+        if (insightEl) {
+            insightEl.innerHTML = "⚠️ <strong>Not Enough Data:</strong> Your charts are empty! Please go to the Smart Planner, add some tasks, and check them off to generate your Bio-Performance Analytics.";
+            insightEl.classList.add('text-amber-700', 'bg-amber-50'); // Make it look like a warning
+        }
+        return; // Stop the code here so it doesn't try to draw empty charts
+    }
+
+    if (!currentUser?.settings?.lastPeriod) return;
+
+    // 2. REMOVE WARNING STYLING IF THEY HAVE DATA
+    const insightEl = document.getElementById('dash-ai-insight');
+    if (insightEl) {
+        insightEl.classList.remove('text-amber-700', 'bg-amber-50');
+    }
+
+    // =========================================================
+    // 3. CALCULATE REAL DATA FOR CHART 1: Tasks per Phase
+    // =========================================================
+    let phaseCounts = { Menstrual: 0, Follicular: 0, Ovulatory: 0, Luteal: 0 };
+    
+    const lastPeriod = new Date(currentUser.settings.lastPeriod);
+    lastPeriod.setHours(0,0,0,0);
+
+    tasksData.filter(t => t.done).forEach(task => {
+        const taskDate = new Date(task.date || new Date());
+        taskDate.setHours(0,0,0,0);
+        
+        const diffDays = Math.floor(Math.abs(taskDate - lastPeriod) / (1000 * 60 * 60 * 24));
+        const cycleDay = (diffDays % 28) + 1;
+        
+        if (cycleDay <= 5) phaseCounts.Menstrual++;
+        else if (cycleDay <= 13) phaseCounts.Follicular++;
+        else if (cycleDay <= 17) phaseCounts.Ovulatory++;
+        else phaseCounts.Luteal++;
+    });
+
+    const ctx1 = document.getElementById('productivityChart').getContext('2d');
+    if (productivityChart) productivityChart.destroy();
+    
+    productivityChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ['Menstrual', 'Follicular', 'Ovulatory', 'Luteal'],
+            datasets: [{
+                label: 'Tasks Completed',
+                data: [phaseCounts.Menstrual, phaseCounts.Follicular, phaseCounts.Ovulatory, phaseCounts.Luteal],
+                backgroundColor: ['#FECACA', '#BBF7D0', '#FDE68A', '#DDD6FE'],
+                borderRadius: 8
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+    });
+
+    // =========================================================
+    // 4. CALCULATE REAL DATA FOR CHART 2: Last 7 Days Trend
+    // =========================================================
+    const daysLabels = [];
+    const tasksPerDay = [];
+    
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        
+        // Fix timezone offset so the date matches exactly
+        const offset = d.getTimezoneOffset() * 60000;
+        const localDateStr = new Date(d.getTime() - offset).toISOString().split('T')[0];
+        
+        daysLabels.push(d.toLocaleDateString('en-US', { weekday: 'short' }));
+        const completedThatDay = tasksData.filter(t => t.done && t.date === localDateStr).length;
+        tasksPerDay.push(completedThatDay);
+    }
+
+    const ctx2 = document.getElementById('trendChart').getContext('2d');
+    if (trendChart) trendChart.destroy();
+    
+    trendChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: daysLabels,
+            datasets: [{
+                label: 'Tasks Completed',
+                data: tasksPerDay, 
+                borderColor: '#16A34A',
+                backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+    });
+}
+
+// Call this at the end of calculateBioInsights()
+renderAnalyticsCharts();
+
+  </script>
+ </body>
+</html>
